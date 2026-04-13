@@ -1,3 +1,10 @@
+"""
+Program Name: Alien Invasion
+Name: Riddhi Agarwal
+Date: April 17, 2026
+Purpose: Represents the ship's arsenal, which manages the bullets fired by the player's ship. 
+"""
+
 import pygame
 from bullet import Bullet
 from typing import TYPE_CHECKING
@@ -7,6 +14,7 @@ if TYPE_CHECKING:
 class Arsenal:
     """Represents the ship's arsenal."""
     def __init__(self, game: 'AlienInvasion') -> None:
+        """Initializes the arsenal."""
         self.game = game
         self.settings = game.settings
         self.arsenal = pygame.sprite.Group()
@@ -17,6 +25,7 @@ class Arsenal:
         self._remove_bullets_offscreen()
     
     def _remove_bullets_offscreen(self) -> None:
+        """Removes bullets that have moved off the screen."""
         screen_rect = self.game.screen.get_rect()
         for bullet in self.arsenal.copy():
             if bullet.rect.left >= screen_rect.right:

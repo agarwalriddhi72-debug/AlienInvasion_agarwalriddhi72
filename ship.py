@@ -1,3 +1,10 @@
+"""
+Program Name: Alien Invasion
+Name: Riddhi Agarwal
+Date: April 17, 2026
+Purpose: Represents the player's ship.
+"""
+
 import pygame
 from typing import TYPE_CHECKING
 
@@ -8,7 +15,7 @@ if TYPE_CHECKING:
 class Ship:
     """Represents the player's ship in the game."""
     def __init__(self, game: 'AlienInvasion', arsenal: 'Arsenal') -> None:
-
+        """Initializes the ship's position and settings."""
         self.game = game
         self.settings = game.settings
         self.screen = game.screen
@@ -27,17 +34,21 @@ class Ship:
         
 
     def update(self) -> None:
-        #Updating the ship's postion
+        """Updates the ship's position and arsenal."""
         self._update_ship_movement()
         self.arsenal.update_arsenal()
 
     def _update_ship_movement(self):
+        """Updates the ship's position based on keys."""
         temp_speed = self.settings.ship_speed
+        
+        # Update position based on keys, but only if within boundaries
         if self.moving_up and self.rect.top > self.boundaries.top:
             self.y -= temp_speed
         if self.moving_down and self.rect.bottom < self.boundaries.bottom:
             self.y += temp_speed
         
+        # Update rect position
         self.rect.y = self.y
     
     def draw(self) -> None:

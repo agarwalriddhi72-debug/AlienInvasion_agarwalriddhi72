@@ -1,3 +1,10 @@
+"""
+Program Name: Alien Invasion
+Name: Riddhi Agarwal
+Date: April 17, 2026
+Purpose: Represents the game settings for Alien Invasion.
+"""
+
 from pathlib import Path
 class Settings:
     """A class to store all settings for Alien Invasion."""

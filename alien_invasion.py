@@ -1,3 +1,11 @@
+"""
+Program Name: Alien Invasion
+Name: Riddhi Agarwal
+Date: April 17, 2026
+Purpose: An Alien Invasion game where the player controls a spaceship and shoots lasers at aliens. 
+        The player can move the ship up and down and fire bullets to destroy the aliens. 
+"""
+
 import sys
 import pygame
 from settings import Settings
@@ -63,6 +71,7 @@ class AlienInvasion:
                 self._check_keyup_events(event)
 
     def _check_keyup_events(self, event) -> None:
+        """Checks when keys are released and updates ship movement accordingly."""
         if event.key == pygame.K_UP:
             self.ship.moving_up = False
         elif event.key == pygame.K_DOWN:
@@ -70,6 +79,7 @@ class AlienInvasion:
 
     
     def _check_keydown_events(self, event) -> None:
+        """Checks when keys are pressed and updates ship movement or firing accordingly."""
         if event.key == pygame.K_UP:
             self.ship.moving_up = True
         elif event.key == pygame.K_DOWN:
