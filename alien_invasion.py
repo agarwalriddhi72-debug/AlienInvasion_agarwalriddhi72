@@ -1,6 +1,7 @@
 import sys
 import pygame
 from settings import Settings
+from ship import Ship
 
 class AlienInvasion:
     """
@@ -12,9 +13,7 @@ class AlienInvasion:
     """
 
     def __init__(self) -> None:
-        """
-        Initializes the game, sets up the screen, loads the background image, and initializes the clock.
-        """
+        """Initializes the game, including settings, screen, background, and ship."""
         pygame.init()
         self.settings = Settings()
 
@@ -27,10 +26,10 @@ class AlienInvasion:
         self.running = True
         self.clock = pygame.time.Clock()
 
+        self.ship = Ship(self)
+
     def run_game(self): 
-        """
-        Runs the main game loop, which checks for events, updates the screen, and limits the frame rate.
-        """
+        """Starts the main game loop."""
         # Game loop - check player position, enemy position, where laser should be
         while self.running:  
             for event in pygame.event.get():
@@ -40,6 +39,7 @@ class AlienInvasion:
                     sys.exit()
 
             self.screen.blit(self.bg, (0, 0))
+            self.ship.draw()
             pygame.display.flip()
             self.clock.tick(self.settings.FPS) # Limit the frame rate to 60 frames per second
 
