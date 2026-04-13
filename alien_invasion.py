@@ -32,16 +32,24 @@ class AlienInvasion:
         """Starts the main game loop."""
         # Game loop - check player position, enemy position, where laser should be
         while self.running:  
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                    pygame.quit()
-                    sys.exit()
+            self._check_events()
 
-            self.screen.blit(self.bg, (0, 0))
-            self.ship.draw()
-            pygame.display.flip()
-            self.clock.tick(self.settings.FPS) # Limit the frame rate to 60 frames per second
+            self._update_screen()
+            self.clock.tick(self.settings.FPS) 
+
+    def _update_screen(self) -> None:
+        """Updates the screen with the background and ship, then flips to the new screen."""
+        self.screen.blit(self.bg, (0, 0))
+        self.ship.draw()
+        pygame.display.flip()
+
+    def _check_events(self) -> None:
+        """Checks for player input and handles events."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+                pygame.quit()
+                sys.exit()# Limit the frame rate to 60 frames per second
 
 if __name__ == '__main__':
     ai = AlienInvasion()
