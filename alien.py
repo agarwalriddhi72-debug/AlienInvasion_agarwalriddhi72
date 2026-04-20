@@ -18,10 +18,13 @@ class Alien(Sprite):
         self.rect.x = self.boundaries.right - self.rect.width - x  # Position from the right side
         self.rect.y = y
         
-        #self.y = float(self.rect.y)
+        self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
     
     def update(self) -> None:
-        pass
+        temp_speed = self.settings.fleet_speed
+        self.y += temp_speed
+        self.rect.y = self.y
 
     def draw_alien(self) -> None:
         self.screen.blit(self.image, self.rect)
