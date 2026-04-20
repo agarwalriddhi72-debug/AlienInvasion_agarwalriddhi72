@@ -7,15 +7,16 @@ if TYPE_CHECKING:
 class Alien(Sprite):
     def __init__(self, fleet: 'AlienFleet', x: float, y: float) -> None:
         super().__init__()
-        self.screen = fleet.screen
-        self.boundaries = fleet.screen.get_rect()
-        self.settings = fleet.settings
+        self.fleet = fleet
+        self.screen = fleet.game.screen
+        self.boundaries = fleet.game.screen.get_rect()
+        self.settings = fleet.game.settings
 
         self.image = pygame.image.load(self.settings.alien_file)
         self.image = pygame.transform.scale(self.image, (self.settings.alien_w, self.settings.alien_h))
         self.image = pygame.transform.rotate(self.image, -90)  # Rotate to face left towards the ship
         self.rect = self.image.get_rect()
-        self.rect.x = self.boundaries.right - self.rect.width - x  # Position from the right side
+        self.rect.x = x  # Position from the right side
         self.rect.y = y
         
         self.y = float(self.rect.y)

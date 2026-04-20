@@ -12,8 +12,8 @@ class Settings:
     def __init__(self) -> None:
         """Initialize the game's settings."""
         self.name: str = "Alien Invasion"
-        self.screen_w: int = 1200
-        self.screen_h: int = 800
+        self.screen_w: int = 1000
+        self.screen_h: int = 500
         self.FPS: int = 60
         self.bg_file = Path.cwd() / 'Assets' / 'images' / 'Starbasesnow.png'
 
