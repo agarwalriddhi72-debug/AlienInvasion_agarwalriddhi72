@@ -1,7 +1,7 @@
 """
 Program Name: Alien Invasion
 Name: Riddhi Agarwal
-Date: April 17, 2026
+Date: April 19, 2026
 Purpose: An Alien Invasion game where the player controls a spaceship and shoots lasers at aliens. 
         The player can move the ship up and down and fire bullets to destroy the aliens. 
 """
@@ -85,6 +85,7 @@ class AlienInvasion:
             self._reset_level()
 
     def _check_game_status(self):
+        """Checks if the player has remaining lives and either resets the level or ends the game."""
         if self.game_stats.ships_left > 0:
             self.game_stats.ships_left -= 1
             self._reset_level()

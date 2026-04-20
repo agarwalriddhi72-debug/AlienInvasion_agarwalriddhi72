@@ -1,7 +1,7 @@
 """
 Program Name: Alien Invasion
 Name: Riddhi Agarwal
-Date: April 17, 2026
+Date: April 19, 2026
 Purpose: Represents the game settings for Alien Invasion.
 """
 

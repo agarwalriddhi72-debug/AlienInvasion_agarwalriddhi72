@@ -1,3 +1,10 @@
+"""
+Program Name: Alien Invasion
+Name: Riddhi Agarwal   
+Date: April 19, 2026
+Purpose: Represents the aliens in the game.
+"""
+
 import pygame
 from pygame.sprite import Sprite
 from typing import TYPE_CHECKING
@@ -5,7 +12,9 @@ if TYPE_CHECKING:
     from alien_fleet import AlienFleet
 
 class Alien(Sprite):
+    """Represents a single alien in the fleet."""
     def __init__(self, fleet: 'AlienFleet', x: float, y: float) -> None:
+        """Initializes the alien's position and settings."""
         super().__init__()
         self.fleet = fleet
         self.screen = fleet.game.screen
@@ -23,6 +32,7 @@ class Alien(Sprite):
         self.x = float(self.rect.x)
     
     def update(self) -> None:
+        """Updates the alien's position based on the fleet's movement."""
         temp_speed = self.settings.fleet_speed
         
         self.y += temp_speed * self.fleet.fleet_direction
@@ -34,4 +44,5 @@ class Alien(Sprite):
         return (self.rect.bottom >= self.boundaries.bottom) or (self.rect.top <= self.boundaries.top)
 
     def draw_alien(self) -> None:
+        """Draws the alien."""
         self.screen.blit(self.image, self.rect)

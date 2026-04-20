@@ -1,7 +1,7 @@
 """
 Program Name: Alien Invasion
 Name: Riddhi Agarwal
-Date: April 17, 2026
+Date: April 19, 2026
 Purpose: Represents the player's ship.
 """
 
@@ -33,6 +33,7 @@ class Ship:
         self.arsenal = arsenal
         
     def _center_ship(self):
+        """Centers the ship on the left side of the screen."""
         self.rect.midleft = self.boundaries.midleft
         self.y = float(self.rect.y) 
 
@@ -63,6 +64,7 @@ class Ship:
         return self.arsenal.fire_bullet()
     
     def check_collisions(self, other_group) -> bool:
+        """Checks for collisions with another group."""
         if pygame.sprite.spritecollideany(self, other_group):
             self._center_ship()
             return True

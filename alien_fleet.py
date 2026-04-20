@@ -1,3 +1,10 @@
+"""
+Program Name: Alien Invasion
+Name: Riddhi Agarwal
+Date: April 19, 2026
+Purpose: Represents the fleet of aliens in the game.
+"""
+
 import pygame
 from typing import TYPE_CHECKING
 from alien import Alien
@@ -17,7 +24,7 @@ class AlienFleet:
         self.create_fleet()
 
     def create_fleet(self) -> None:
-        """Create the fleet of aliens."""
+        """Makes the fleet of aliens."""
         alien_h = self.settings.alien_h
         screen_h = self.settings.screen_h
         alien_w = self.settings.alien_w
@@ -31,6 +38,7 @@ class AlienFleet:
         self._create_rectangle_fleet(alien_h, alien_w, fleet_w, fleet_h, x_offset, y_offset)
 
     def _create_rectangle_fleet(self, alien_h, alien_w, fleet_w, fleet_h, x_offset, y_offset):
+        """Creates a rectangular fleet of aliens."""
         for col in range(fleet_w):
             for row in range(fleet_h):
                 current_x = alien_w * col + x_offset
@@ -40,6 +48,7 @@ class AlienFleet:
                 self._create_alien(current_x, current_y)
 
     def calculate_offsets(self, alien_h, screen_h, alien_w, fleet_w, fleet_h, half_screen):
+        """Calculates the offsets in order to center the fleet."""
         fleet_vertical_space = fleet_h * alien_h
         fleet_horizontal_space = fleet_w * alien_w
 
@@ -48,6 +57,7 @@ class AlienFleet:
         return x_offset, y_offset
 
     def calculate_fleet_size(self, alien_h, half_screen, alien_w, screen_h):
+        """Calculates the number of aliens that fit on the screen."""
         fleet_h = (screen_h // alien_h)
         fleet_w = (half_screen // alien_w)
 
@@ -64,7 +74,7 @@ class AlienFleet:
         return fleet_w, fleet_h
 
     def _create_alien(self, current_x: int, current_y: int) -> None:
-        """Create an alien and place it in the column."""
+        """Creates an alien and adds it to the fleet."""
         new_alien = Alien(self, current_x, current_y)
 
         self.fleet.add(new_alien)
@@ -76,6 +86,7 @@ class AlienFleet:
             alien.draw_alien()
 
     def _check_fleet_edges(self):
+        """Checks if any aliens have reached an edge(boundary), and if so, the direction is reversed and the fleet drops down."""
         alien: Alien
         for alien in self.fleet:
             if alien.check_edges():
@@ -84,26 +95,30 @@ class AlienFleet:
                 break
             
     def drop_alien_fleet(self):
+        """Drops the fleet down by the fleet drop speed."""
         alien: Alien
         for alien in self.fleet:
             alien.x -= self.fleet_drop_speed
             
     def update_fleet(self):
+        """Updates the fleet's position, checking for edges and dropping if necessary."""
         self._check_fleet_edges()
         self.fleet.update()
         
 
     def check_destroyed_status(self):
+        """Checks if the fleet has been destroyed."""
         return not self.fleet
 
     def check_fleet_left(self):
+        """Checks if the fleet has reached the left edge of the screen."""
         alien: Alien
         for alien in self.fleet:
             if alien.rect.left <= 0:
                 return True
         return False
-
     
     def check_collisions(self, bullets):
+        """Checks for collisions between the fleet and bullets."""
         collisions = pygame.sprite.groupcollide(self.fleet, bullets, True, True)
         return collisions
