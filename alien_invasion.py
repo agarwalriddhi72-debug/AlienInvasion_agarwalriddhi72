@@ -8,11 +8,13 @@ Purpose: An Alien Invasion game where the player controls a spaceship and shoots
 
 import sys
 import pygame
+from game_status import GameStats
 from settings import Settings
 from ship import Ship
 from arsenal import Arsenal
-from alien import Alien
+#from alien import Alien
 from alien_fleet import AlienFleet
+from time import sleep
 
 class AlienInvasion:
     """
@@ -27,6 +29,7 @@ class AlienInvasion:
         """Initializes the game, including settings, screen, background, and ship."""
         pygame.init()
         self.settings = Settings()
+        self.game_stats = GameStats(self.settings.starting_ship_count)
 
         self.screen = pygame.display.set_mode((self.settings.screen_w, self.settings.screen_h))
         pygame.display.set_caption(self.settings.name)
@@ -41,20 +44,62 @@ class AlienInvasion:
         self.laser_sound = pygame.mixer.Sound(self.settings.laser_sound)
         self.laser_sound.set_volume(0.7)
 
+        self.impact = pygame.mixer.Sound(self.settings.impact_sound)
+        self.impact.set_volume(0.7) 
+
         self.ship = Ship(self, Arsenal(self))
         self.alien_fleet = AlienFleet(self)
         self.alien_fleet.create_fleet()
+        self.game_active = True
 
     def run_game(self): 
         """Starts the main game loop."""
         # Game loop - check player position, enemy position, where laser should be
         while self.running:  
             self._check_events()
-            self.ship.update()
-            self.alien_fleet.update_fleet()
+            if self.game_active:    
+                self.ship.update()
+                self.alien_fleet.update_fleet()
+                self._check_collisions()
             self._update_screen()
             self.clock.tick(self.settings.FPS) 
 
+    def _check_collisions(self):
+        # Check for collisions for ship
+        if self.ship.check_collisions(self.alien_fleet.fleet):
+            self._check_game_status()
+            # subtract one life if possible
+    
+
+        # Check collisions for aliens and bottom of screen
+        if self.alien_fleet.check_fleet_left():
+            self._check_game_status()
+
+        # Check collisions of projecties and aliens
+        collisions = self.alien_fleet.check_collisions(self.ship.arsenal.arsenal)
+        if collisions:
+            self.impact.play()
+            self.impact.fadeout(250)
+
+        if self.alien_fleet.check_destroyed_status():
+            self._reset_level()
+
+    def _check_game_status(self):
+        if self.game_stats.ships_left > 0:
+            self.game_stats.ships_left -= 1
+            self._reset_level()
+            sleep(0.5)
+        else:
+            self.game_active = False
+
+        print(self.game_stats.ships_left)
+        
+    def _reset_level(self)-> None:
+        # This will reset level by creating new fleet
+        self.ship.arsenal.arsenal.empty()
+        self.alien_fleet.fleet.empty()
+        self.alien_fleet.create_fleet()   
+    
     def _update_screen(self) -> None:
         """Updates the screen with the background and ship, then flips to the new screen."""
         self.screen.blit(self.bg, (0, 0))

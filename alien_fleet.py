@@ -92,3 +92,18 @@ class AlienFleet:
         self._check_fleet_edges()
         self.fleet.update()
         
+
+    def check_destroyed_status(self):
+        return not self.fleet
+
+    def check_fleet_left(self):
+        alien: Alien
+        for alien in self.fleet:
+            if alien.rect.left <= 0:
+                return True
+        return False
+
+    
+    def check_collisions(self, bullets):
+        collisions = pygame.sprite.groupcollide(self.fleet, bullets, True, True)
+        return collisions

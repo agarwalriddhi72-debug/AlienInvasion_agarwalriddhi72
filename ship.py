@@ -32,6 +32,9 @@ class Ship:
         self.y = float(self.rect.y)
         self.arsenal = arsenal
         
+    def _center_ship(self):
+        self.rect.midleft = self.boundaries.midleft
+        self.y = float(self.rect.y) 
 
     def update(self) -> None:
         """Updates the ship's position and arsenal."""
@@ -58,3 +61,9 @@ class Ship:
     def fire(self) -> None:
         """Fires a bullet."""
         return self.arsenal.fire_bullet()
+    
+    def check_collisions(self, other_group) -> bool:
+        if pygame.sprite.spritecollideany(self, other_group):
+            self._center_ship()
+            return True
+        return False
