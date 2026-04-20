@@ -23,11 +23,10 @@ class AlienFleet:
         alien_w = self.settings.alien_w
         screen_w = self.settings.screen_w
 
-        
-        
-        fleet_w, fleet_h = self.calculate_fleet_size(alien_h, screen_w, alien_w, screen_h, half_screen)
+        half_screen = screen_w // 2
+        fleet_w, fleet_h = self.calculate_fleet_size(alien_h, half_screen, alien_w, screen_h)
 
-        x_offset, y_offset = self.calculate_offsets(alien_h, screen_h, alien_w, fleet_w, fleet_h)
+        x_offset, y_offset = self.calculate_offsets(alien_h, screen_h, alien_w, fleet_w, fleet_h, half_screen)
 
         self._create_rectangle_fleet(alien_h, alien_w, fleet_w, fleet_h, x_offset, y_offset)
 
@@ -40,18 +39,15 @@ class AlienFleet:
                     continue
                 self._create_alien(current_x, current_y)
 
-    def calculate_offsets(self, alien_h, screen_h, alien_w, fleet_w, fleet_h):
-        half_screen = self.settings.screen_w//2
+    def calculate_offsets(self, alien_h, screen_h, alien_w, fleet_w, fleet_h, half_screen):
         fleet_vertical_space = fleet_h * alien_h
         fleet_horizontal_space = fleet_w * alien_w
 
-        x_offset = int((half_screen + fleet_horizontal_space) // 2)
-       
-
+        x_offset = half_screen + (half_screen - fleet_horizontal_space) // 2
         y_offset = int((screen_h - fleet_vertical_space) // 2)
-        return x_offset,y_offset
+        return x_offset, y_offset
 
-    def calculate_fleet_size(self, alien_h, screen_w, alien_w, screen_h, half_screen):
+    def calculate_fleet_size(self, alien_h, half_screen, alien_w, screen_h):
         fleet_h = (screen_h // alien_h)
         fleet_w = (half_screen // alien_w)
 
@@ -78,3 +74,21 @@ class AlienFleet:
         alien: 'Alien'
         for alien in self.fleet:
             alien.draw_alien()
+
+    def _check_fleet_edges(self):
+        alien: Alien
+        for alien in self.fleet:
+            if alien.check_edges():
+                self.fleet_direction *= -1
+                self.drop_alien_fleet()
+                break
+            
+    def drop_alien_fleet(self):
+        alien: Alien
+        for alien in self.fleet:
+            alien.x -= self.fleet_drop_speed
+            
+    def update_fleet(self):
+        self._check_fleet_edges()
+        self.fleet.update()
+        
