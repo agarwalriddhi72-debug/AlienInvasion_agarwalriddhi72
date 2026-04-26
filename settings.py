@@ -16,7 +16,7 @@ class Settings:
         self.screen_h: int = 500
         self.FPS: int = 60
         self.bg_file = Path.cwd() / 'Assets' / 'images' / 'Starbasesnow.png'
-        self.diffuculty_scale = 1.1
+        self.difficulty_scale = 1.1
 
         self.ship_file = Path.cwd() / 'Assets' / 'images' / 'ship2(no bg).png'
         self.ship_w = 40
