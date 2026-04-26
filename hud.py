@@ -16,8 +16,15 @@ class HUD:
             self.settings.HUD_font_size)
         self.padding = 20
         self.update_scores()
-        #self.setup_life_image()
-        #self.update_level()
+        self._setup_life_image()
+        self.update_level()
+    
+    def _setup_life_image(self):
+        self.life_image = pygame.image.load(self.settings.ship_file)
+        self.life_image = pygame.transform.scale(self.life_image, (
+            self.settings.ship_w, self.settings.ship_h
+        ))
+        self.life_rect = self.life_image.get_rect()
 
     def update_scores(self) -> None:
         self._update_max_score()
@@ -30,14 +37,14 @@ class HUD:
             self.settings.text_color, None)
         self.score_rect = self.score_image.get_rect()
         self.score_rect.left = self.boundaries.left + self.padding
-        self.score_rect.bottom = self.max_score_rect.bottom + (2*self.padding)
+        self.score_rect.bottom = self.max_score_rect.top - self.padding
 
     def _update_max_score(self):
         max_score_str = f'Max-Score: {self.game_stats.max_score: ,.0f}'
         self.max_score_image = self.font.render(max_score_str, True, self.settings.text_color, None)
         self.max_score_rect = self.max_score_image.get_rect()
         self.max_score_rect.left = self.boundaries.left + self.padding
-        self.max_score_rect.bottom = self.boundaries.bottom - (3*self.padding)
+        self.max_score_rect.bottom = self.boundaries.bottom - self.padding
 
     def _update_hi_score(self):
         hi_score_str = f'Hi-Score: {self.game_stats.hi_score: ,.0f}'
@@ -45,7 +52,24 @@ class HUD:
         self.hi_score_rect = self.hi_score_image.get_rect()
         self.hi_score_rect.midbottom = (self.boundaries.centerx, self.boundaries.bottom - self.padding)
 
+    def update_level(self):
+        level_str = f'Level: {self.game_stats.level: ,.0f}'
+        self.level_image = self.font.render(level_str, True, 
+            self.settings.text_color, None)
+        self.level_rect = self.level_image.get_rect()
+        self.level_rect.right = self.boundaries.right - (2*self.padding)
+        self.level_rect.bottom = self.boundaries.bottom - self.padding
+
+    def _draw_lives(self):
+        current_x = self.boundaries.right - self.padding - self.life_rect.width
+        current_y = self.boundaries.bottom - (2*self.padding) - self.life_rect.height
+        for _ in range(self.game_stats.ships_left):
+            self.screen.blit(self.life_image, (current_x, current_y))
+            current_x-= self.life_rect.width + self.padding
+
     def draw(self) -> None:
         self.screen.blit(self.hi_score_image, self.hi_score_rect)
         self.screen.blit(self.max_score_image, self.max_score_rect)
         self.screen.blit(self.score_image, self.score_rect)
+        self.screen.blit(self.level_image, self.level_rect)
+        self._draw_lives()
