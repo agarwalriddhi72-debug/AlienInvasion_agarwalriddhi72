@@ -1,3 +1,10 @@
+"""
+Program Name: Alien Invasion
+Purpose: This module contains the Button class which is responsible for creating and managing buttons in the game
+Name: Riddhi Agarwal
+Date: April 26, 2026
+"""
+
 import pygame.font
 
 from typing import TYPE_CHECKING

@@ -71,7 +71,7 @@ class AlienInvasion:
             self.clock.tick(self.settings.FPS) 
 
     def _check_collisions(self):
-        # Check for collisions for ship
+        """Check for collisions for ship"""
         if self.ship.check_collisions(self.alien_fleet.fleet):
             self._check_game_status()
             # subtract one life if possible
@@ -109,7 +109,7 @@ class AlienInvasion:
         print(self.game_stats.ships_left)
         
     def _reset_level(self)-> None:
-        # This will reset level by creating new fleet
+        """This will reset level by creating new fleet"""
         self.ship.arsenal.arsenal.empty()
         self.alien_fleet.fleet.empty()
         self.alien_fleet.create_fleet()
@@ -155,6 +155,7 @@ class AlienInvasion:
                 self._check_button_clicked()
     
     def _check_button_clicked(self):
+        """Checks if the play button is clicked and restarts the game if so."""
         mouse_pos = pygame.mouse.get_pos()
         if self.play_button.check_clicked(mouse_pos):
             self.restart_game()
