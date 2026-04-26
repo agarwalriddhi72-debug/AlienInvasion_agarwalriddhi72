@@ -52,6 +52,7 @@ class Settings:
 
         self.fleet_speed = 3
         self.fleet_drop_speed = 20
+        self.alien_points = 50
 
     def increase_difficulty(self) -> None:
         """Increase difficulty as game progresses."""
